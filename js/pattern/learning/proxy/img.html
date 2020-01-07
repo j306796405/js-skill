@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button id="btn">Hi</button>
+<script>
+    var myImage = (function(){
+        var imgNode = document.createElement( 'img' );
+        document.body.appendChild( imgNode );
+        return {
+            setSrc: function( src ){
+                imgNode.src = src;
+            }
+        }
+    })();
+    var proxyImage = (function(){
+        var img = new Image;
+        img.onload = function(){
+            myImage.setSrc( this.src );
+        }
+        return {
+            setSrc: function( src ){
+                //加载新图
+                img.src = src;
+                //放入loading图片 当src加载完以后会触发onload事件后会为src重新复制
+                // onload事件是图片完整加载好以后执行的
+                myImage.setSrc( 'loading.png' );
+            }
+        }
+    })();
+    proxyImage.setSrc( 'http://fujian.86516.com/forum/201209/28/16042484m9y9izwbrwuixj.jpg' );
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 加载Traceur编译器 -->
+<script src="../lib/traceur-compiler/traceur.js" type="text/javascript"></script>
+<!-- 将Traceur编译器用于网页 -->
+<script src="../lib/traceur-compiler/bootstrap.js" type="text/javascript"></script>
+<!-- 打开实验选项，否则有些特性可能编译不成功 -->
+<script>
+    //    traceur.options.experimental = true;
+</script>
+<script type="module">
+
+    // Sets
+    //Sets不存储重复数据
+    var s = new Set();
+    s.add("hello").add("goodbye").add("hello");
+    console.log(s.size === 2);
+    s.has("hello") === true;
+
+    // Maps
+    var m = new Map();
+    m.set("hello", 42);
+    m.set(s, 34);
+    console.log(m.get(s) == 34);
+
+    // Weak Maps
+    var wm = new WeakMap();
+    wm.set(s, { extra: 42 });
+    console.log(wm.size === undefined);
+
+    // Weak Sets
+    var ws = new WeakSet();
+    ws.add({ data: 42 });//因为添加到ws的这个临时对象没有其他变量引用它，所以ws不会保存它的值，也就是说这次添加其实没有意思
+    console.log(ws);
+</script>
+</body>
+</html>

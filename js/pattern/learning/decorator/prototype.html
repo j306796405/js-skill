@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="test">12345</div>
+<script>
+    Function.prototype.before = function(fn){
+        var that = this;
+        return function(){
+            fn.apply(this, arguments);
+            return that.apply(this, arguments);
+        }
+    }
+
+
+    var Person = function(name){
+        this.name = name;
+    }
+    Person.prototype.getName = function(){
+        return this.name;
+    }
+
+    var person = new Person('Jeffery');
+    //这里必须保持等于原函数才能保证before内的this指向正确
+    person.getName = person.getName.before(function(){
+        console.log('我是你爸爸');
+    });
+    console.log(person.getName());
+
+</script>
+</body>
+</html>

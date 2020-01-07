@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>deep copy</title>
+</head>
+<body>
+<script>
+  let obj = {a: 1, b: {x: 3}}
+  let copy1 = JSON.parse(JSON.stringify(obj))
+
+  function deepCopy (obj) {
+    let copy = obj instanceof Array ? [] : {}
+
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        copy[key] = typeof obj[key] === 'object' ? deepCopy(obj[key]) : obj[key]
+      }
+    }
+
+    return copy
+  }
+  deepCopy(obj)
+</script>
+</body>
+</html>

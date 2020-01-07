@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>js对象的深度克隆</title>
+</head>
+<body>
+<script>
+    function deepClone(obj) {
+        var buf;
+        if(obj instanceof Array){
+            buf = [];
+            for(var i= 0; i< obj.length; i++){
+                buf[i] = deepClone(obj[i]);
+            }
+            return buf;
+        }else if(obj instanceof Object){
+            buf = {};
+            for(var k in obj){
+                buf[k] = deepClone(obj[k]);
+            }
+            return buf;
+        }else{
+            return obj;
+        }
+    }
+
+    var a = [[1, 2, 3], {a: 1, b: 2, c: [1,2,3]}];
+    var b = deepClone(a);
+    console.log(b);
+
+
+</script>
+</body>
+</html>

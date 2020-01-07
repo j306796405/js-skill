@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    var getSingle = function(fn){
+        var result;
+        return function(){
+            return result || (result = fn.apply(this,arguments));
+        }
+    }
+
+    //此方法错误result的值不会被闭包所引用
+    /*var getSingleAAA = getSingle(function(){
+        return 'aaa';
+    })();*/
+
+    var getSingleAAA = getSingle(function(){
+        return 'aaa';
+    });
+
+    var getSingleBBB = getSingle(function(){
+        return 'bbb';
+    });
+
+    var aaa = getSingleAAA();
+
+        aaa = getSingleAAA();
+
+    var bbb = getSingleBBB();
+
+        bbb = getSingleBBB();
+
+        aaa = getSingleAAA();
+</script>
+</body>
+</html>

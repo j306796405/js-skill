@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>高阶函数动态创建代理</title>
+</head>
+<body>
+<script>
+    /**************** 计算乘积 *****************/
+    var mult = function(){
+        var a = 1;
+        for ( var i = 0, l = arguments.length; i < l; i++ ){
+            a = a * arguments[i];
+        }
+        return a;
+    };
+    /**************** 计算加和 *****************/
+    var plus = function(){
+        var a = 0;
+        for ( var i = 0, l = arguments.length; i < l; i++ ){
+            a = a + arguments[i];
+        }
+        return a;
+    };
+
+    var proxyCacheFactory = function(fn){
+        var cache = {};
+
+        return function(){
+            var joinArgs = Array.prototype.join.call(arguments, ',');
+            if(joinArgs in cache){
+                return cache[joinArgs];
+            }
+
+            return cache[joinArgs] = fn.apply(this, arguments);
+        }
+    }
+
+    var multCacheFactory = proxyCacheFactory(mult);
+    var plusCacheFactory = proxyCacheFactory(plus);
+
+    console.log(multCacheFactory(2,3,4));
+    console.log(multCacheFactory(2,3,4));
+    console.log(plusCacheFactory(2,3,4));
+    console.log(plusCacheFactory(2,3,4));
+    console.log(multCacheFactory(2,3,4));
+    console.log(plusCacheFactory(2,3,4));
+</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+   var throttle = function(fn, interval){
+       var timer,
+               isFirstTime = true;
+       return function(){
+           var that = this;
+           if(isFirstTime){
+               isFirstTime = false;
+               fn.apply(this, arguments);
+           }
+           if(!timer){
+               timer = setInterval(function(){
+                   clearInterval(timer);
+                   timer = null;
+                   fn.apply(that, arguments);
+               }, interval)
+           }
+
+       }
+   }
+
+   window.onresize = throttle(function(){
+       console.log('resizing');
+   }, 500)
+</script>
+</body>
+</html>

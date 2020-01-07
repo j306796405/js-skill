@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 加载Traceur编译器 -->
+<script src="../lib/traceur-compiler/traceur.js" type="text/javascript"></script>
+<!-- 将Traceur编译器用于网页 -->
+<script src="../lib/traceur-compiler/bootstrap.js" type="text/javascript"></script>
+<!-- 打开实验选项，否则有些特性可能编译不成功 -->
+<script>
+//        traceur.options.experimental = true;
+</script>
+<script type="module">
+    class Point {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    class ColorPoint extends Point {
+        constructor(x, y, color) {
+            super(x, y);
+            this.color = color; // 正确
+        }
+    }
+
+    var colorPoint = new ColorPoint(1,2,3);
+    console.log(colorPoint);
+</script>
+</body>
+</html>

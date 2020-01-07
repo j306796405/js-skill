@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+<script>
+    var getSingle = function(fn){
+        var ret;
+        return function(){
+            return ret || (ret = fn.apply(this, arguments));
+        }
+    }
+
+    /**
+     * 每次调用getSingle方法里的ret的值都是空的，
+     * ret是被记录在返回的闭包函数里的 也就是getAAA,getFakeAAA里面
+     * */
+    var getAAA = getSingle(function(){
+        return 'AAA';
+    })
+
+    console.log(getAAA());
+    console.log(getAAA());
+    console.log(getAAA());
+    console.log(getAAA());
+
+    var getFakeAAA = getSingle(function(){
+        return 'AAA';
+    })
+
+
+
+</script>
+</body>
+</html>

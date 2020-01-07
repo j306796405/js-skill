@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订阅发布</title>
+</head>
+<body>
+<script>
+  function Dep() {
+    this.subs = {};
+  }
+
+  Dep.prototype.addSub = function (key, sub) {
+    if (!this.subs[key]) {
+      this.subs[key] = []
+    }
+    this.subs[key].push(sub);
+  }
+  Dep.prototype.notify = function (key) {
+    this.subs[key].forEach(sub => sub.update());
+  }
+
+  function Watcher(fn) {
+    this.fn = fn;
+  }
+
+  Watcher.prototype.update = function () {
+    this.fn();
+  }
+
+  var dep = new Dep();
+  dep.addSub('watch1', new Watcher(function () {
+    console.log('watch1');
+  }))
+  dep.addSub('watch1', new Watcher(function () {
+    console.log('watch1.1');
+  }))
+  dep.addSub('watch2', new Watcher(function () {
+    console.log('watch2');
+  }))
+</script>
+</body>
+</html>

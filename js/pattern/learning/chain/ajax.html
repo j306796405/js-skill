@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="div1">getStyle test.</div>
+<div id="div2">getStyle test.</div>
+<div id="div3">getStyle test.</div>
+<input type="button" value="Get data" id="btn" />
+
+<script>
+    var ajaxes = []; //用于存储参数对象的队列
+    //用于声明XMLHttpRequest实例对象
+    var Xhr = function(){
+        var xhr = false;
+        try {
+            xhr = new XMLHttpRequest();
+        }
+        catch (e) {
+            try {
+                xhr = new ActiveXObject("Msxml2.XMLHTTP");
+            }
+            catch (e) {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+        }
+        return xhr;
+    }
+    var xhr = new Xhr(); //获得XMLHttpRequest实例对象xhr
+    //executeAjax是主要的执行Ajax的函数
+    var executeAjax = function(){
+        //如果队列为空，则退出执行
+        if (!ajaxes.length)
+            return;
+        var options = ajaxes[0];
+        if (xhr) {
+            xhr.open(options.method, options.url, true);
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
+                    options.callback(xhr.responseText, xhr);
+                    //删除队列中的第一个请求
+                    ajaxes.shift();
+                    //如果队列中还有请求，就接着递归执行executeAjax函数，直到队列为空
+                    if (ajaxes.length > 0) {
+                        executeAjax();
+                    }
+                }
+            }
+            if (xhr.method === "post") {
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            }
+            xhr.send(options.data || null);
+        }
+    }
+    //用于添加队列的函数
+    var addAjax = function(options){
+        ajaxes.push(options);
+    }
+
+
+    onload = function(){
+        document.getElementById("btn").onclick = function(){
+            //添加请求队列
+            addAjax({method: "GET",url: "test.txt",callback: callback1});
+            addAjax({method: "GET",url: "test.txt",callback: callback2});
+            addAjax({method: "GET",url: "test.txt",callback: callback3});
+            //开始执行队列
+            executeAjax();
+        }
+    }
+    var callback1 = function(data, xhr){
+        document.getElementById("div1").innerHTML = data;
+        console.log('111111');
+    }
+    var callback2 = function(data, xhr){
+        document.getElementById("div2").innerHTML = data;
+        console.log('2222222');
+    }
+    var callback3 = function(data, xhr){
+        document.getElementById("div3").innerHTML = data;
+        console.log('3333333');
+    }
+</script>
+</body>
+</html>

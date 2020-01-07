@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    var Person = function(name){
+        this.name = name;
+    }
+    Person.prototype.getName = function(){
+        return this.name;
+    }
+
+    var before = function(fn, beforeFn){
+        return function(){
+            beforeFn.apply(this, arguments);
+            return fn.apply(this, arguments);
+        }
+    }
+
+    var person = new Person('Jeffery');
+    person.getName = before(person.getName, function(){
+        console.log('我是你爸爸!');
+    })
+    console.log(person.getName());
+</script>
+</body>
+</html>

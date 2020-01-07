@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>new</title>
+</head>
+<body>
+<script>
+  function myNew(fun) {
+    return function () {
+      let obj = {
+        __proto__: fun.prototype
+      }
+
+      const ret = fun.call(obj, ...arguments)
+
+      return typeof ret === 'object' ? ret : obj
+    }
+  }
+
+  function Person (name) {
+    this.name = name
+  }
+
+  console.log(new Person('Jeffery'))
+</script>
+</body>
+</html>

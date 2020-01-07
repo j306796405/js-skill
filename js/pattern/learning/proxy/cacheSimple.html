@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>缓存代理-计算乘积</title>
+</head>
+<body>
+<script>
+    var mult = function(){
+        var a = 1;
+        for ( var i = 0, l = arguments.length; i < l; i++ ){
+            a = a * arguments[i];
+        }
+        return a;
+    };
+
+    var proxyMult = (function(){
+        var cache = {};
+
+        return function(){
+            var joinArgs = Array.prototype.join.apply(arguments, ',');
+            if(cache[joinArgs]){
+                return cache[joinArgs];
+            }
+            return cache[joinArgs] = mult.apply(this, arguments);
+        }
+    })()
+    console.log(proxyMult(2,3,4));
+    console.log(proxyMult(2,3,4));
+    console.log(proxyMult(2,3,4));
+</script>
+</body>
+</html>

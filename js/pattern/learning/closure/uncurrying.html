@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    //函数科里化
+    Function.prototype.uncurrying = function(){
+        var _this = this;
+        return function(){
+            var obj = Array.prototype.shift.call(arguments);
+            return _this.apply(obj, arguments);
+        }
+    }
+
+    //没懂。。。
+    /*Function.prototype.uncurrying = function(){
+        var _this = this;
+        return function(){
+            return Function.prototype.call.apply(_this, arguments);
+        }
+    }*/
+
+    for(var i= 0, fn, arr= ['push', 'shift', 'forEach']; fn= arr[i++];){
+        Array[fn] = Array.prototype[fn].uncurrying();
+    }
+
+    var arr = [1,2,3,4,5];
+    var o = {
+        0: 1,
+        length: 1
+    };
+    Array.push(o, 2);
+    console.log('push以后的数组: ', o);
+    /*Array.push(arr, 6);
+    console.log('push以后的数组: ', arr);
+
+    Array.shift(arr);
+    console.log('shift以后的数组: ', arr);
+
+    Array.forEach(arr, function(v, i){
+        console.log('forEach遍历数组: ', i, v);
+    })*/
+
+
+</script>
+</body>
+</html>

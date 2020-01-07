@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button id="btn">按钮</button>
+<script>
+    var singleton = function(fn){
+        var result;
+        return function(){
+            return result || (result = fn.apply(this, arguments))
+        };
+    }
+
+    //虽然多次运行render方法 但是实际只绑定了一次
+    var render = singleton(function(){
+        document.getElementById('btn').onclick = function(){
+            console.log('我被单次绑定啦！');
+        }
+        return true;
+    })
+
+    render();
+    render();
+    render();
+    render();
+</script>
+</body>
+</html>

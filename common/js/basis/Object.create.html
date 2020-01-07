@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Object.create</title>
+</head>
+<body>
+<script>
+    // 将传入的对象作为原型
+    function create (obj) {
+      function F () {}
+      F.prototype = obj
+      return new F()
+    }
+</script>
+</body>
+</html>

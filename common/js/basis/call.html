@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>call</title>
+</head>
+<body>
+<script>
+    Function.prototype.myCall = function (context = window, ...args) {
+      if (typeof this !== 'function') {
+        throw new TypeError('not function')
+      }
+
+      context.fn = this
+      let result = context.fn(...args)
+      delete context.fn
+      return result
+    }
+
+    function test (a, b) {
+      console.log(this.name)
+      console.log(a, b)
+    }
+
+    const person = {
+      name: 'Jeffery'
+    }
+
+    test.myCall(person, 1, 2)
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    /**
+     * 对plane对象加以包装，
+     * */
+    var a = function(){
+        alert(1);
+    }
+    var _a = a;
+    a = function(){
+        _a();
+        alert(2);
+    }
+    a();
+    /*var Plane = function(){};
+    Plane.prototype.fire = function(){
+        console.log('普通子弹');
+    }
+
+    var MissileDecorator = function(plane){
+        this.plane = plane;
+    }
+    MissileDecorator.prototype.fire = function(){
+        console.log('发射导弹');
+    }
+
+    var AtomDecorator = function(plane){
+        this.plane = plane;
+    }
+    AtomDecorator.prototype.fire = function(){
+        console.log('发射原子弹');
+    }*/
+
+    /*var plane = {
+        fire: function(){
+            console.log( '发射普通子弹' );
+        }
+    }
+    var missileDecorator = function(){
+        console.log( '发射导弹' );
+    }
+    var atomDecorator = function(){
+        console.log( '发射原子弹' );
+    }
+
+    var fireCommon = plane.fire;
+    plane.fire = function(){
+        fireCommon();
+        missileDecorator();
+    }
+    var fireMissile = plane.fire;
+    plane.fire = function(){
+        fireMissile();
+        atomDecorator();
+    }
+    plane.fire();*/
+</script>
+</body>
+</html>

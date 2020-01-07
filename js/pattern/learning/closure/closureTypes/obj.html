@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>obj</title>
+</head>
+<body>
+<script>
+    //缓存结果 两种写法差不多
+    /*var cachedBox = (function(){
+        var cached = {};
+        return {
+            showCached: function(){
+                return cached;
+            },
+            getCached: function(key){
+                return cached[key];
+            },
+            setCached: function(key, value){
+                cached[key] = value;
+            }
+        }
+    })()
+
+    cachedBox.setCached('a', 1);
+    console.log(cachedBox.getCached('a'));*/
+
+    var cachedBox = function(){
+        var cached = {};
+        return {
+            showCached: function(){
+                return cached;
+            },
+            getCached: function(key){
+                return cached[key];
+            },
+            setCached: function(key, value){
+                cached[key] = value;
+            }
+        }
+    }();
+    cachedBox.setCached('a', 1);
+    cachedBox.setCached('b', 2);
+    console.log(cachedBox.getCached('a'));
+    console.log(cachedBox.getCached('b'));
+</script>
+</body>
+</html>

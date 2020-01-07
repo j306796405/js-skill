@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    var names = 'Picasso, Pablo\nGauguin, Paul\nvan Gogh, Vincent';
+    // console.log(names.replace(/(\w+), (\w+)/g, '$2-$1'));
+    //名 姓交换位置 并且去除, 增加-
+
+    /*'the cia and fbi'.replace(/\b(cia|fbi)\b/g, function(str, index, completeWord){
+        return str.toUpperCase();
+    })*/
+
+    /*var stock = '1 lemon, 2 cabbages, and 101 eggs';
+    function minusOne(match, amount, unit, index, completeWord){
+        amount = Number(amount) - 1;
+        //如果只剩1个，删除后面的s
+        if(amount == 1){
+            unit = unit.slice(0, unit.length - 1);
+        }else if(amount == 0){
+            amount = 'no';
+        }
+        return amount + ' ' + unit;
+    }
+    stock.replace(/(\d+) (\w+)/g, minusOne);*/
+</script>
+</body>
+</html>

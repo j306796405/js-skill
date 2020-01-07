@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    var throttle = function(fn, interval){
+        var timer,
+                firstTime = true;
+
+        return function(){
+            var args = arguments,
+                    _this = this;
+            //保证首次触发事件没有事件延迟
+            if(firstTime){
+                fn.apply(_this, args);
+                return firstTime = false;
+            }
+
+            //如果定时器还在，说明前一次延迟执行还没有完成
+            if(timer){
+                return false;
+            }
+
+            timer = setTimeout(function(){
+                clearTimeout(timer);
+                timer = null;
+                fn.apply(_this, args);
+            }, interval || 500)
+        }
+    }
+
+    window.onresize = throttle(function(){
+        console.log(1);
+    }, 500)
+</script>
+</body>
+</html>

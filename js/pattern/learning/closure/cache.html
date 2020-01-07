@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    var createFactory = (function(){
+        var cache = {};
+        return function(name){
+            if(cache[name]){
+                return cache[name];
+            }
+            return cache[name] = new Person(name);
+        }
+    })();
+
+    function Person(name){
+        this.name = name;
+    }
+
+    createFactory('Jeffery');
+    createFactory('Jeffery');
+    createFactory('Kevin');
+    createFactory('Jeffery');
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>defineProperty</title>
+</head>
+<body>
+
+<p>请输入:</p>
+<input type="text" id="input">
+<p id="p"></p>
+
+<script>
+  /**
+   * writable
+   * 属性的值是否可以被重写。设置为true可以被重写；设置为false，不能被重写。默认为false
+   *
+   * enumerable
+   * 此属性是否可以被枚举（使用for...in或Object.keys()）。设置为true可以被枚举；设置为false，不能被枚举。默认为false
+   *
+   * configurable
+   * 是否可以删除目标属性或是否可以再次修改属性的特性（writable, configurable, enumerable）。设置为true可以被删除或可以重新设置特性；设置为false，不能被可以被删除或不可以重新设置特性。默认为false。
+   * 这个属性起到两个作用：
+   * 目标属性是否可以使用delete删除
+   * 目标属性是否可以再次设置特性
+   *
+   * 注意：当使用了getter或setter方法，不允许使用writable和value这两个属性
+   * */
+
+  // 获取属性描述符
+  // Object.getOwnPropertyDescriptor(obj, 'newKey')
+
+  /**
+   * object 必需。 要在其上添加或修改属性的对象。 这可能是一个本机 JavaScript对象（即用户定义的对象或内置对象）或 DOM 对象。
+   * property name 必需。 一个包含属性名称的字符串。
+   * descriptor 必需。 属性描述符。 它可以针对数据属性或访问器属性。
+   * */
+
+  /**
+   * https://github.com/cnsnake11/blog/blob/master/%E5%85%B6%E5%AE%83/%E5%89%8D%E7%AB%AF%E5%92%8C%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99.md
+   * */
+
+  const obj = {};
+  let name = 'Jeffery'
+
+  Object.defineProperty(obj, 'fullName', {
+    get: function () {
+      return `${name} Jiang`
+    },
+    set: function (newVal) {
+      name = newVal
+      compileHtml(newVal)
+    }
+  });
+
+  const input = document.getElementById('input');
+
+  input.addEventListener('input', function (evt) {
+    obj.fullName = evt.target.value
+  })
+
+  function compileHtml(value) {
+    input.value = value
+    document.getElementById('p').innerHTML = obj.fullName;
+  }
+
+  console.log(Object.getOwnPropertyDescriptor(obj, 'fullName'))
+</script>
+</body>
+</html>

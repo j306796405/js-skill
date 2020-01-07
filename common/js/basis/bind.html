@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bind</title>
+</head>
+<body>
+<script>
+  Function.prototype.myBind = function (context = window, ...args) {
+    if (typeof this !== 'function') {
+      throw new TypeError('not function')
+    }
+
+    const self = this
+
+    return function F () {
+      return self.apply(context, [ ...args, ...arguments ])
+    }
+  }
+
+  const person = {
+    name: 'Jeffery'
+  }
+
+  function test(a, b) {
+    console.log(this.name)
+    console.log(a, b)
+    return 'done'
+  }
+
+
+  console.log(test.myBind(person, 1)(2))
+</script>
+</body>
+</html>

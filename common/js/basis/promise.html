@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>promise</title>
+</head>
+<body>
+<script>
+  class MyPromise {
+    constructor (fn) {
+      // 三个状态
+      this.state = 'pending'
+      this.value = undefined
+      this.reason = undefined
+      this.successCallback = []
+      this.rejectCallback = []
+      let resolve = value => {
+        if (this.state === 'pending') {
+          this.state = 'fulfilled'
+          this.value = value
+          this.successCallback.forEach(callback => callback(this.value))
+        }
+      }
+      let reject = value => {
+        if (this.state === 'pending') {
+          this.state = 'rejected'
+          this.reason = value
+          this.rejectCallback.forEach(callback => callback('error'))
+        }
+      }
+      // 自动执行函数
+      try {
+        fn(resolve, reject)
+      } catch (e) {
+        reject(e)
+      }
+    }
+    // then
+    then(onFulfilled, onRejected) {
+      switch (this.state) {
+        case 'fulfilled':
+          onFulfilled(this.value)
+          break
+        case 'rejected':
+          onRejected('error')
+          break
+        default:
+          this.successCallback.push(onFulfilled)
+          this.rejectCallback.push(onRejected)
+      }
+    }
+  }
+
+  new MyPromise(function (resolve, reject) {
+    setTimeout(() => {
+      resolve(100)
+    })
+  }).then((data) => {
+    console.log(data)
+  }, () => {
+
+  })
+</script>
+</body>
+</html>

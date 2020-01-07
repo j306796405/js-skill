@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    var $ = {};
+
+    $.each = function(obj, fn){
+        if(Array.isArray(obj)){
+            for(var i= 0, len= obj.length; i< len; i++){
+                if(fn.apply(this, [i, obj[i]]) === false){
+                    break;
+                }
+            }
+        }else{
+            for(i in obj){
+                if(fn.apply(this, [i, obj[i]]) === false){
+                    break;
+                }
+            }
+        }
+    }
+
+    $.each(['a','b','c'], function(i, v){
+        console.log(i, v);
+        if(i == 1){
+            return false;
+        }
+    })
+
+    $.each({a: '111', b: '222', c: '333'}, function(k, v){
+        console.log(k, v);
+        if(k == 'b'){
+            return false;
+        }
+    })
+</script>
+</body>
+</html>

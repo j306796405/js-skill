@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+<ul>
+    <li>123</li>
+    <li>456</li>
+    <li>789</li>
+    <li>010</li>
+</ul>
+<script type="text/javascript">
+    var aLi = document.getElementsByTagName('li');
+    for(var i= 0, len= aLi.length; i< len; i++){
+        (function(j){
+            //点击的时候回去要i的值 此时for循环结束i为4
+            aLi[j].onclick = function(){
+                alert(j);
+            }
+        })(i)
+    }
+</script>
+</body>
+</html>

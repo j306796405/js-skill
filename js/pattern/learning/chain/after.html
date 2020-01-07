@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    Function.prototype.after = function(fn){
+        var that = this;
+
+        return function(){
+            var ret = that.apply(this, arguments);
+
+            if(ret == 'nextSuccessor'){
+                return fn.apply(this, arguments);
+            }
+            return ret;
+        }
+    }
+
+    var order500 = function(type, pay, stock) {
+        if(type === 1 && pay) {
+            console.log('500定金，赠送100优惠券');
+        } else {
+            return 'nextSuccessor';
+        }
+    };
+
+    var order200 = function(type, pay, stock) {
+        if(type === 2 && pay) {
+            console.log('200定金，赠送50优惠券');
+        } else {
+            return 'nextSuccessor';
+        }
+    };
+
+    var orderNormal = function(type, pay, stock) {
+        if(stock > 0) {
+            console.log('普通购买，无优惠券');
+        } else {
+            console.log('库存不足');
+        }
+    };
+
+    var order = order500.after(order200).after(orderNormal);
+
+//    order(1, true, 500);
+//    order(2, true, 200);
+    order(1, false, 500);
+</script>
+</body>
+</html>

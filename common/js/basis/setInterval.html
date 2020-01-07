@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>setInterval</title>
+</head>
+<body>
+<script>
+    setTimeout(function () {
+      setTimeout(arguments.callee, 500)
+    }, 500)
+</script>
+</body>
+</html>

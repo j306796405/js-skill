@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+
+<script type="text/javascript">
+    var cache = [];
+    var miniConsole = {
+        log: function(){
+            var args = arguments;
+            cache.push( function(){
+                return miniConsole.log.apply( miniConsole, args );
+            });
+        }
+    };
+    miniConsole.log(1);
+
+</script>
+</body>
+</html>

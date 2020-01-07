@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>装饰模式</title>
+</head>
+<body>
+<script>
+    Function.prototype.before = function(beforeFn){
+        //因有函数调用所以this是调用该函数的函数
+        var _this = this;
+        return function(){
+            var fn1 = beforeFn.apply(_this, arguments);
+            console.log(fn1);
+            //function中的this是window 因为无对象调用
+            return _this.apply(this, arguments);
+        }
+    }
+
+    Function.prototype.after = function(afterFn){
+        var _this = this;
+        return function(){
+            var fn1And2 = _this.apply(this, arguments);
+            console.log(fn1And2);
+            return afterFn.apply(_this, arguments);
+        }
+    }
+
+    var func = function(){
+        console.log( 2 );
+        return 'running normal function';
+    };
+
+    func = func.before(function(){
+        console.log(1);
+        return 'running before function';
+    }).after(function(){
+        console.log(3);
+        return 'running after function';
+    })
+
+    console.log(func());
+</script>
+</body>
+</html>

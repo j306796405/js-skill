@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    function escapeHTML(text){
+        var replacements = {
+            '<' : '&lt;',
+            '>' : '&gt;',
+            '&' : '&amp;',
+            '\"' : '&quot;',
+        }
+        return text.replace(/[<>&"]/g, function(character){
+            return replacements[character];
+        })
+    }
+    var html = '<div class="box"><p>测试HTML字段</p></div>';
+    console.log(escapeHTML(html));
+</script>
+
+</body>
+</html>

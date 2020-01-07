@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>深拷贝</title>
+</head>
+<body>
+<script>
+  let obj = {
+    a: {a: 2}
+  }
+  let handler = {
+    get(target, key) {
+      if (typeof target[key] === 'object') {
+        return new Proxy(target[key], handler)
+      }
+      return Reflect.get(target, key)
+    },
+    set(target, key, value) {
+      if (key === 'length') return true;
+      return Reflect.set(target, key, value)
+    }
+  }
+
+  let proxy = new Proxy(obj, handler);
+  proxy.a.a = 5
+  // console.log(proxy.a.a)
+</script>
+</body>
+</html>
