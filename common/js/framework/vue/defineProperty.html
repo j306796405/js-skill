@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>双向绑定的简单实现</title>
+</head>
+<body>
+
+<p>请输入:</p>
+<input type="text" id="input">
+<p id="fullName"></p>
+
+<script>
+  /**
+   * writable
+   * 当且仅当该属性的writable为true时，value才能被赋值运算符改变。默认为 false。
+   *
+   * enumerable
+   * 此属性是否可以被枚举（使用for...in或Object.keys()）。设置为true可以被枚举；设置为false，不能被枚举。默认为false
+   *
+   * value
+   * 该属性对应的值。可以是任何有效的 JavaScript 值（数值，对象，函数等）。默认为 undefined
+   *
+   * configurable
+   * 当且仅当该属性的 configurable 为 true 时，该属性描述符才能够被改变，同时该属性也能从对应的对象上被删除。默认为 false。
+   *
+   * get
+   * 一个给属性提供 getter 的方法，如果没有 getter 则为 undefined。当访问该属性时，该方法会被执行，方法执行时没有参数传入，但是会传入this对象（由于继承关系，这里的this并不一定是定义该属性的对象）。
+   * 默认为 undefined。
+   *
+   * set
+   * 一个给属性提供 setter 的方法，如果没有 setter 则为 undefined。当属性值修改时，触发执行该方法。该方法将接受唯一参数，即该属性新的参数值。
+   *
+   * 注意：当使用了getter或setter方法，不允许使用writable和value这两个属性
+   * */
+
+  /**
+   * object 必需。 要在其上添加或修改属性的对象。
+   * property name 必需。 一个包含属性名称的字符串。
+   * descriptor 必需。 属性描述符。 它可以针对数据属性或访问器属性。
+   * */
+
+  /**
+   * https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
+   * https://github.com/cnsnake11/blog/blob/master/%E5%85%B6%E5%AE%83/%E5%89%8D%E7%AB%AF%E5%92%8C%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99.md
+   * */
+
+  const obj = {};
+  let name = 'Jeffery'
+
+  Object.defineProperty(obj, 'fullName', {
+    get: function () {
+      return `${name} Jiang`
+    },
+    set: function (newVal) {
+      name = newVal
+      compileHtml(newVal)
+    }
+  });
+
+  /*Object.defineProperty(obj, 'name', {
+    get: function () {
+      return `${obj.name}`
+    },
+    set: function (newVal) {
+      obj.name = newVal
+    }
+  });*/
+
+  const input = document.getElementById('input');
+
+  input.addEventListener('input', function (evt) {
+    obj.fullName = evt.target.value
+  })
+
+  function compileHtml(value) {
+    input.value = value
+    document.getElementById('fullName').innerHTML = obj.fullName;
+  }
+
+  obj.fullName = 'Jeffery'
+
+  console.log(Object.getOwnPropertyDescriptor(obj, 'fullName'))
+</script>
+</body>
+</html>
