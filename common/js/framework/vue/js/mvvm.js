@@ -4,14 +4,6 @@
  * 换行符和文本节点node.nodeType为1
  * */
 
-/**
- * 1: new Watcher 为什么有两个
- * 2: Dep.target意义
- * 3: node type为1没必要做input的事件监听
- * 4: vm.initMounted
- * 5: replace方法
- * 6: computed是如何监听的
- * */
 // 创建一个Mvvm构造函数
 // 这里用es6方法将options赋一个初始值，防止没传，等同于options || {}
 function Mvvm(options = {}) {
@@ -46,7 +38,6 @@ function Mvvm(options = {}) {
     options.mounted.call(this); // 这就实现了mounted钩子函数
   }
 
-  console.log('mounted');
   console.log(dep)
   dep.notify();
   this.initMounted = true
@@ -64,7 +55,13 @@ function initComputed() {
         // 如果是对象的话，手动调一下get方法即可
         // 如： sum() {return this.a + this.b;},他们获取a和b的值就会调用get方法
         // 所以不需要new Watcher去监听变化了
-        get: typeof computed[key] === 'function' ? computed[key] : computed[key].get,
+        get () {
+          if (typeof computed[key] === 'function') {
+            return computed[key].apply(vm)
+          } else {
+            return computed[key]
+          }
+        },
         set() {
         }
       });
@@ -76,6 +73,7 @@ function initComputed() {
 // 写数据劫持的主要逻辑
 function Observe(data) {
   let dep = new Dep();
+  console.log('创建Dep')
   // 所谓数据劫持就是给对象增加get,set
   // 先遍历一遍对象再说
   for (let key in data) {     // 把data属性通过defineProperty的方式定义属性
@@ -89,7 +87,6 @@ function Observe(data) {
         return val;
       },
       set(newVal) {   // 更改值的时候
-        console.log('set', newVal);
         if (val === newVal) {   // 设置的值和以前值一样就不理它
           return;
         }
@@ -139,8 +136,6 @@ function Compile(el, vm) {
       if (node.nodeType === 3 && reg.test(txt)) { // 即是文本节点又有大括号的情况{{}}
         function replaceTxt() {
           node.textContent = txt.replace(reg, (matched, placeholder) => {
-            console.log(placeholder);   // 匹配到的分组 如：song, album.name, singer...
-            debugger
             vm.initMounted || new Watcher(vm, placeholder, replaceTxt);   // 监听变化，进行匹配替换内容
 
             return placeholder.split('.').reduce((val, key) => {
@@ -218,7 +213,6 @@ function Watcher(vm, exp, fn) {
 }
 
 Watcher.prototype.update = function () {
-  console.log('update');
   // notify的时候值已经更改了
   // 再通过vm, exp来获取新的值
   let arr = this.exp.split('.');

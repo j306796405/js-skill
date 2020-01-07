@@ -26,6 +26,7 @@
   ]
 
   methodsToPatch.forEach(function (method) {
+    debugger
     // cache original method
     const original = arrayProto[method]
     // 这里的defineReactive很重要，其实也就是用object.defineProperty重新定义属性
@@ -63,7 +64,7 @@
       enumerable: true,
       configurable: true,
       get: function defineGet() {
-        // console.log(`get key: ${key} val: ${val}`)
+        console.log(`get key: ${key} val: ${val}`)
         return val
       },
       set: function defineSet(newVal) {
