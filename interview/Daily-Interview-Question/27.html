@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>const 和 let 声明的变量不在 window 上</title>
+</head>
+<body>
+<script>
+    // 在ES5中，顶层对象的属性和全局变量是等价的，var 命令和 function 命令声明的全局变量，自然也是顶层对象。
+
+    var a = 12;
+    function f(){};
+
+    console.log(window.a); // 12
+    console.log(window.f); // f(){}
+
+    // 但ES6规定，var 命令和 function 命令声明的全局变量，依旧是顶层对象的属性，但 let命令、const命令、class命令声明的全局变量，不属于顶层对象的属性。
+
+    let aa = 1;
+    const bb = 2;
+
+    console.log(window.aa); // undefined
+    console.log(window.bb); // undefined
+
+    /**
+     * 在ES5中，全局变量直接挂载到全局对象的属性上，所以能在window上看到var声明的变量
+     * 在ES6中，全局对象的属性和全局变量脱钩，但是为了保持兼容性，旧的不变，所以var、function声明的全局变量依然可以在window对象上看到，而let、const声明的全局变量在window对象上看不到
+     * */
+
+</script>
+</body>
+</html>
